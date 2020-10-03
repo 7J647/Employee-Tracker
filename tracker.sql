@@ -29,5 +29,5 @@ manager_id INT,
 PRIMARY KEY (id)
 );
 
-SELECT * FROM employee;
-
+INSERT INTO employee (id, first_name, last_name, role_id)
+VALUES (101, "Jeff", "Flynn", 1);
