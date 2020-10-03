@@ -1,5 +1,7 @@
 DROP DATABASE IF EXISTS tracker;
 
+DROP DATABASE IF EXISTS tracker;
+
 CREATE DATABASE tracker;
 
 USE tracker;
@@ -18,5 +20,14 @@ department_id INT,
 PRIMARY KEY (id)
 );
 
-SELECT * FROM department;
-SELECT * FROM role
+CREATE TABLE employee (
+id INT,
+first_name VARCHAR(30),
+last_name VARCHAR(30),
+role_id INT,
+manager_id INT,
+PRIMARY KEY (id)
+);
+
+SELECT * FROM employee;
+
