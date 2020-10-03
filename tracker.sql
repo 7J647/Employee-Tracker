@@ -10,7 +10,13 @@ name VARCHAR(30),
 PRIMARY KEY (id)
 );
 
-INSERT INTO department (id, name)
-VALUES ("1", "Research and Development");
+CREATE TABLE role (
+id INT,
+title VARCHAR(30),
+salary DECIMAL(6,0),
+department_id INT,
+PRIMARY KEY (id)
+);
 
-SELECT * FROM department
+SELECT * FROM department;
+SELECT * FROM role
