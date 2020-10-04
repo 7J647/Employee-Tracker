@@ -89,8 +89,12 @@ const connection = mysql.createConnection({
                   Message: "What is the employee's manager's I.D.?",
                   type: "input"
                 }
-              ]).then(({employeeID}) => {
+              ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
                 console.log(employeeID);
+                console.log(employeeFirstName);
+                console.log(employeeLastName);
+                console.log(employeeRoleID);
+                console.log(employeeManagerID);
               })
 
 
