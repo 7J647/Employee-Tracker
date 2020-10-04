@@ -28,11 +28,22 @@ const connection = mysql.createConnection({
         type: "list",
         choices: ["Employees", "Departments", "Roles"]
       }
-    ]).then(result => {
-      console.log(result.userArea);
-      }
-    })
-  });
+  //CHANGING THIS TO ES6 FORMAT BELOW
+  //   ]).then(result => {
+  //     console.log(result.userArea);
+  //     if(result.userArea === "Employees") {
+  //       getEmployees();
+  //     }
+  //   })
+  // });
+
+      ]).then(({userArea})=> {
+        console.log(userArea);
+        if(userArea === "Employees") {
+          getEmployees();
+        }
+      })
+    });
 
   function getEmployees(){
     connection.query("SELECT * FROM employee", (err, data) => {
