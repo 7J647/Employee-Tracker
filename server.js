@@ -18,7 +18,7 @@ const connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    addEmployee();
+    addEmployee(102, "Jill", "Flynn", 1, 101);
     getEmployees();
    connection.end();
   });
@@ -30,10 +30,10 @@ const connection = mysql.createConnection({
     })
   }
 
-  function addEmployee(){
-    connection.query("INSERT INTO employee SET ? ", { id: 102, first_name: "Jill", last_name: "Flynn", role_id: 2}, (err, data) => {
+  function addEmployee(id, first_name, last_name, role_id, manager_id){
+    connection.query("INSERT INTO employee SET ? ", { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, (err, data) => {
       if (err) throw err;
-      console.log(data);
+      // console.log(data);
     })
   }
 
