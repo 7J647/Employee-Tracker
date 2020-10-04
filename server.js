@@ -18,30 +18,8 @@ const connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    inquirer.prompt([
-      {
-        name: "userArea",
-        message: "Which area would you like to enter?",
-        type: "list",
-        choices: ["Employees", "Departments", "Roles"]
-      }
-  //CHANGING THIS TO ES6 FORMAT BELOW
-  //   ]).then(result => {
-  //     console.log(result.userArea);
-  //     if(result.userArea === "Employees") {
-  //       getEmployees();
-  //     }
-  //   })
-  // });
-      ]).then(({userArea})=> {
-        // console.log(userArea);
-        if(userArea === "Employees") {
-          listEmployees(); 
-          getEmployees();
-        }
-        // else if(userArea === "Departments")
-      })
-    });
+    start();
+  })
 
   function listEmployees(){
     connection.query("SELECT * FROM employee", (err, data) => {
@@ -58,7 +36,7 @@ const connection = mysql.createConnection({
             name: "addOrUpdate",
             message: "What would you like to do next?",
             type: "list",
-            choices: ["Add Employee", "Update Employee", "Exit"]
+            choices: ["Add Employee", "Update Employee", "Start Again", "Exit"]
           }
         ]).then(({addOrUpdate})=> {
           if(addOrUpdate === "Add Employee") {
@@ -68,6 +46,10 @@ const connection = mysql.createConnection({
           else if(addOrUpdate === "Update Employee") {
              updateEmployee();
           }
+
+          else if(addOrUpdate === "Start Again") {
+            start();
+         }
           else if(addOrUpdate=="Exit"){
             console.log("Thank you, session ended!")
             connection.end();
@@ -106,7 +88,7 @@ const connection = mysql.createConnection({
         "UPDATE employee SET ? WHERE ?",
         [
           {
-            role_id:  61,
+            role_id:  1,
           },
           {
             id: employeeToUpdate,
@@ -115,6 +97,8 @@ const connection = mysql.createConnection({
         (err, data) => {
           if (err) throw err;
           listEmployees();
+          console.log("Employee successfully updated, see table below.");
+          getEmployees();
         })
       });
     });
@@ -162,24 +146,23 @@ const connection = mysql.createConnection({
       getEmployees();
     })
   }
-  // function start() {
-  //   inquirer
-  //     .prompt({
-  //       name: "addViewUpdate",
-  //       type: "list",
-  //       message: "Would you like to [POST] an auction or [BID] on an auction?",
-  //       choices: ["POST", "BID", "EXIT"]
-  //     })
-  //     .then(function(answer) {
-  //       // based on their answer, either call the bid or the post functions
-  //       if (answer.postOrBid === "POST") {
-  //         postAuction();
-  //       }
-  //       else if(answer.postOrBid === "BID") {
-  //         bidAuction();
-  //       } else{
-  //         connection.end();
-  //       }
-  //     });
-  // }
+
+  function start() {
+    inquirer.prompt([
+      {
+        name: "userArea",
+        message: "Which database table would you like to view?",
+        type: "list",
+        choices: ["Employees", "Departments", "Roles"]
+      }
+      ]).then(({userArea})=> {
+        // console.log(userArea);
+        if(userArea === "Employees") {
+          listEmployees(); 
+          getEmployees();
+        }
+        // else if(userArea === "Departments")
+      });
+    }
+  
   
