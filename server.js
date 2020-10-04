@@ -18,17 +18,22 @@ const connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    // start();
-    // connection.end();
+    addEmployee();
+    getEmployees();
+   connection.end();
   });
-
-  getEmployees();
 
   function getEmployees(){
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
       console.table(data);
-      connection.end();
+    })
+  }
+
+  function addEmployee(){
+    connection.query("INSERT INTO employee SET ? ", { id: 102, first_name: "Jill", last_name: "Flynn", role_id: 2}, (err, data) => {
+      if (err) throw err;
+      console.log(data);
     })
   }
 
