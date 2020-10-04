@@ -18,9 +18,6 @@ const connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-  //   addEmployee(102, "Jill", "Flynn", 1, 101);
-  //   getEmployees();
-  //  connection.end();
     inquirer.prompt([
       {
         name: "userArea",
@@ -36,7 +33,6 @@ const connection = mysql.createConnection({
   //     }
   //   })
   // });
-
       ]).then(({userArea})=> {
         // console.log(userArea);
         if(userArea === "Employees") {
@@ -57,7 +53,6 @@ const connection = mysql.createConnection({
   function getEmployees(){
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
-      // console.table(data);
         inquirer.prompt([
           {
             name: "addOrUpdate",
@@ -104,26 +99,24 @@ const connection = mysql.createConnection({
                 // console.log(employeeRoleID);
                 // console.log(employeeManagerID);
                 addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
-                // getEmployees();
-                // connection.end();
                 listEmployees();
                 connection.end();
               })
-
           }
         })
-    })
-    
+    })  
   }
-
 
   function addEmployee(id, first_name, last_name, role_id, manager_id){
     connection.query("INSERT INTO employee SET ? ", 
     { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, 
-    (err, data) => {
-      if (err) throw err;
-      // console.log(data);
-    })
+      (err, data) => {
+        if (err) throw err;
+      })
+  }
+
+  function updateEmployee(){
+    
   }
   // function start() {
   //   inquirer
