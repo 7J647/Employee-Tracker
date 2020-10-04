@@ -52,23 +52,29 @@ const connection = mysql.createConnection({
       console.table(data);
         inquirer.prompt([
           {
-            name: "employeeRoles",
+            name: "addOrUpdate",
             message: "What would you like to do next?",
             type: "list",
-            choices: ["Update Employee Role", "Add Employee"]
+            choices: ["Add Employee", "Update Employee"]
           }
-        ])
+        ]).then(({addOrUpdate})=> {
+          if(addOrUpdate === "Add Employee") {
+            addEmployee();
+            connection.end();
+          }
+        })
     })
-    connection.end();
+    
   }
-
-  function addEmployee(id, first_name, last_name, role_id, manager_id){
-    connection.query("INSERT INTO employee SET ? ", { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, (err, data) => {
-      if (err) throw err;
-      // console.log(data);
-    })
+addEmployee();
+function addEmployee(){}
+  // function addEmployee(id, first_name, last_name, role_id, manager_id){
+  //   connection.query("INSERT INTO employee SET ? ", { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, (err, data) => {
+  //     if (err) throw err;
+  //     // console.log(data);
+  //   })
   
-  }
+  // }
 
   // function start() {
   //   inquirer
