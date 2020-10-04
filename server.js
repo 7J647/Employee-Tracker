@@ -90,9 +90,19 @@ const connection = mysql.createConnection({
       console.log(data);
       const arrayOfEmployeeNames = data.map(employee => employee.first_name + " " + employee.last_name);
       console.log(arrayOfEmployeeNames);
-
-  })
-}
+      inquirer.prompt([
+        {
+          name: "employeeToUpdate",
+          message: "Which employee are you updating?",
+          type: "list",
+          choices: arrayOfEmployeeNames,
+        },
+      ])
+      .then(({employeeToUpdate}) => {
+        console.log(employeeToUpdate);
+      });
+    });
+  }
 
   function askUserForNewEmployeeInfo(){
     inquirer.prompt([
