@@ -88,7 +88,7 @@ const connection = mysql.createConnection({
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
       console.log(data);
-      const arrayOfEmployeeNames = data.map(employee => employee.first_name + " " + employee.last_name);
+      const arrayOfEmployeeNames = data.map((employee) => employee.first_name);
       console.log(arrayOfEmployeeNames);
       inquirer.prompt([
         {
@@ -97,9 +97,24 @@ const connection = mysql.createConnection({
           type: "list",
           choices: arrayOfEmployeeNames,
         },
+        //TODO inquirer.prompt ask the user for the updated id
       ])
       .then(({employeeToUpdate}) => {
         console.log(employeeToUpdate);
+        connection.query(
+        "UPDATE employee SET ? WHERE ?",
+        [
+          {
+            role_id:  7,
+          },
+          {
+            first_name: employeeToUpdate,
+          },
+        ],
+        (err, data) => {
+          if (err) throw err;
+          listEmployees();
+        })
       });
     });
   }
