@@ -80,15 +80,31 @@ const connection = mysql.createConnection({
           choices: arrayOfEmployeeNames,
         },
         //TODO inquirer.prompt ask the user for the updated id
+
+        {
+          name: "updatedRoleID",
+          message: "Please enter the employee's updated Role ID:",
+          type: "input",
+        }
+
+
       ])
-      .then(({employeeToUpdate}) => {
+      .then(({employeeToUpdate, updatedRoleID}) => {
         // console.log(employeeToUpdate);
         // listEmployees();
         connection.query(
         "UPDATE employee SET ? WHERE ?",
+
+    //     { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, 
+    //     (err, data) => {
+    //       if (err) throw err;
+    //     })
+    // }
+
+
         [
           {
-            role_id:  1,
+            role_id:  updatedRoleID,
           },
           {
             id: employeeToUpdate,
