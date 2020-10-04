@@ -38,7 +38,7 @@ const connection = mysql.createConnection({
   // });
 
       ]).then(({userArea})=> {
-        console.log(userArea);
+        // console.log(userArea);
         if(userArea === "Employees") {
           getEmployees();
         }
@@ -59,22 +59,63 @@ const connection = mysql.createConnection({
           }
         ]).then(({addOrUpdate})=> {
           if(addOrUpdate === "Add Employee") {
-            addEmployee();
+              inquirer.prompt([
+                {
+                  name: "employeeID",
+                  Message: "What will the I.D. be for this employee?",
+                  type: "input",
+                },
+
+                {
+                  name: "employeeFirstName",
+                  Message: "What is the employee's first name?",
+                  type: "input"
+                },
+
+                {
+                  name: "employeeLastName",
+                  Message: "What is the employee's last name?",
+                  type: "input"
+                },
+
+                {
+                  name: "employeeRoleID",
+                  Message: "What is the employee's role I.D.?",
+                  type: "input"
+                },
+
+                {
+                  name: "employeeManagerID",
+                  Message: "What is the employee's manager's I.D.?",
+                  type: "input"
+                }
+              ])
+              // .then(({employeeID},{employeeFirstName},{employeeLastName}, {employeeRoleID}, {employeeManagerID}) => {
+              //   console.log(employeeID);
+              //   console.log(employeeFirstName);
+              //   console.log(employeeLastName);
+              //   console.log(employeeRoleID);
+              //   console.log(employeeManagerID);
+              // })
+
+            // addEmployee();
             connection.end();
           }
         })
     })
     
   }
-addEmployee();
-function addEmployee(){}
-  // function addEmployee(id, first_name, last_name, role_id, manager_id){
-  //   connection.query("INSERT INTO employee SET ? ", { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, (err, data) => {
-  //     if (err) throw err;
-  //     // console.log(data);
-  //   })
+
+
+  function addEmployee(id, first_name, last_name, role_id, manager_id){
+    connection.query("INSERT INTO employee SET ? ", 
+    { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, 
+    (err, data) => {
+      if (err) throw err;
+      // console.log(data);
+    })
   
-  // }
+  }
 
   // function start() {
   //   inquirer
