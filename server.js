@@ -62,46 +62,7 @@ const connection = mysql.createConnection({
           }
         ]).then(({addOrUpdate})=> {
           if(addOrUpdate === "Add Employee") {
-              inquirer.prompt([
-                {
-                  name: "employeeID",
-                  Message: "What will the I.D. be for this employee?",
-                  type: "input",
-                },
-
-                {
-                  name: "employeeFirstName",
-                  Message: "What is the employee's first name?",
-                  type: "input"
-                },
-
-                {
-                  name: "employeeLastName",
-                  Message: "What is the employee's last name?",
-                  type: "input"
-                },
-
-                {
-                  name: "employeeRoleID",
-                  Message: "What is the employee's role I.D.?",
-                  type: "input"
-                },
-
-                {
-                  name: "employeeManagerID",
-                  Message: "What is the employee's manager's I.D.?",
-                  type: "input"
-                }
-              ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
-                // console.log(employeeID);
-                // console.log(employeeFirstName);
-                // console.log(employeeLastName);
-                // console.log(employeeRoleID);
-                // console.log(employeeManagerID);
-                addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
-                listEmployees();
-                connection.end();
-              })
+              askUserForNewEmployeeInfo();
           }
         })
     })  
@@ -115,8 +76,52 @@ const connection = mysql.createConnection({
       })
   }
 
-  function updateEmployee(){
-    
+  function updateEmployee(role_id){
+    connection.query("UPDATE employee SET role_id= ? WHERE id= ?")
+
+  }
+
+  function askUserForNewEmployeeInfo(){
+    inquirer.prompt([
+      {
+        name: "employeeID",
+        Message: "What will the I.D. be for this employee?",
+        type: "input",
+      },
+
+      {
+        name: "employeeFirstName",
+        Message: "What is the employee's first name?",
+        type: "input"
+      },
+
+      {
+        name: "employeeLastName",
+        Message: "What is the employee's last name?",
+        type: "input"
+      },
+
+      {
+        name: "employeeRoleID",
+        Message: "What is the employee's role I.D.?",
+        type: "input"
+      },
+
+      {
+        name: "employeeManagerID",
+        Message: "What is the employee's manager's I.D.?",
+        type: "input"
+      }
+    ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
+      // console.log(employeeID);
+      // console.log(employeeFirstName);
+      // console.log(employeeLastName);
+      // console.log(employeeRoleID);
+      // console.log(employeeManagerID);
+      addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
+      listEmployees();
+      connection.end();
+    })
   }
   // function start() {
   //   inquirer
