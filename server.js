@@ -42,6 +42,7 @@ const connection = mysql.createConnection({
         if(userArea === "Employees") {
           getEmployees();
         }
+        // else if(userArea === "Departments")
       })
     });
 
@@ -49,7 +50,16 @@ const connection = mysql.createConnection({
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
       console.table(data);
+        inquirer.prompt([
+          {
+            name: "employeeRoles",
+            message: "What would you like to do next?",
+            type: "list",
+            choices: ["Update Employee Role", "Add Employee"]
+          }
+        ])
     })
+    connection.end();
   }
 
   function addEmployee(id, first_name, last_name, role_id, manager_id){
@@ -57,6 +67,7 @@ const connection = mysql.createConnection({
       if (err) throw err;
       // console.log(data);
     })
+  
   }
 
   // function start() {
@@ -79,3 +90,4 @@ const connection = mysql.createConnection({
   //       }
   //     });
   // }
+  
