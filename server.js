@@ -58,11 +58,15 @@ const connection = mysql.createConnection({
             name: "addOrUpdate",
             message: "What would you like to do next?",
             type: "list",
-            choices: ["Add Employee", "Update Employee"]
+            choices: ["Add Employee", "Update Employee", "Exit"]
           }
         ]).then(({addOrUpdate})=> {
           if(addOrUpdate === "Add Employee") {
               askUserForNewEmployeeInfo();
+          }
+          else if(addOrUpdate=="Exit"){
+            console.log("Thank you, session ended!")
+            connection.end();
           }
         })
     })  
@@ -120,7 +124,7 @@ const connection = mysql.createConnection({
       // console.log(employeeManagerID);
       addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
       listEmployees();
-      connection.end();
+      getEmployees();
     })
   }
   // function start() {
