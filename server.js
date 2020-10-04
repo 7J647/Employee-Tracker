@@ -18,9 +18,20 @@ const connection = mysql.createConnection({
   connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId + "\n");
-    addEmployee(102, "Jill", "Flynn", 1, 101);
-    getEmployees();
-   connection.end();
+  //   addEmployee(102, "Jill", "Flynn", 1, 101);
+  //   getEmployees();
+  //  connection.end();
+    inquirer.prompt([
+      {
+        name: "userArea",
+        message: "Which area would you like to enter?",
+        type: "list",
+        choices: ["Employees", "Departments", "Roles"]
+      }
+    ]).then(result => {
+      console.log(result.userArea);
+      }
+    })
   });
 
   function getEmployees(){
