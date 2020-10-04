@@ -40,16 +40,24 @@ const connection = mysql.createConnection({
       ]).then(({userArea})=> {
         // console.log(userArea);
         if(userArea === "Employees") {
+          listEmployees(); 
           getEmployees();
         }
         // else if(userArea === "Departments")
       })
     });
 
-  function getEmployees(){
+  function listEmployees(){
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
       console.table(data);
+    })
+  }
+
+  function getEmployees(){
+    connection.query("SELECT * FROM employee", (err, data) => {
+      if (err) throw err;
+      // console.table(data);
         inquirer.prompt([
           {
             name: "addOrUpdate",
@@ -90,25 +98,18 @@ const connection = mysql.createConnection({
                   type: "input"
                 }
               ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
-                console.log(employeeID);
-                console.log(employeeFirstName);
-                console.log(employeeLastName);
-                console.log(employeeRoleID);
-                console.log(employeeManagerID);
+                // console.log(employeeID);
+                // console.log(employeeFirstName);
+                // console.log(employeeLastName);
+                // console.log(employeeRoleID);
+                // console.log(employeeManagerID);
+                addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
+                // getEmployees();
+                // connection.end();
+                listEmployees();
+                connection.end();
               })
 
-
-
-              // .then(({employeeID},{employeeFirstName},{employeeLastName}, {employeeRoleID}, {employeeManagerID}) => {
-              //   console.log(employeeID);
-              //   console.log(employeeFirstName);
-              //   console.log(employeeLastName);
-              //   console.log(employeeRoleID);
-              //   console.log(employeeManagerID);
-              // })
-
-            // addEmployee();
-            connection.end();
           }
         })
     })
@@ -123,9 +124,7 @@ const connection = mysql.createConnection({
       if (err) throw err;
       // console.log(data);
     })
-  
   }
-
   // function start() {
   //   inquirer
   //     .prompt({
