@@ -31,3 +31,8 @@ PRIMARY KEY (id)
 
 INSERT INTO employee (id, first_name, last_name, role_id)
 VALUES (101, "Jeff", "Flynn", 1);
+
+INSERT INTO department (id, name)
+VALUES (1, "Shipping"), (2, "Finance");
+
+SELECT * FROM department;

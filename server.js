@@ -177,8 +177,48 @@ const connection = mysql.createConnection({
           listEmployees(); 
           getEmployees();
         }
-        // else if(userArea === "Departments")
+        else if(userArea === "Departments") {
+          listDepartments();
+
+        }
       });
     }
   
+    function listDepartments(){
+      connection.query("SELECT * FROM department", (err, data) => {
+        if (err) throw err;
+        console.table(data);
+      })
+    }
+  
+
+    // function getEmployees(){
+    //   connection.query("SELECT * FROM employee", (err, data) => {
+    //     if (err) throw err;
+    //       inquirer.prompt([
+    //         {
+    //           name: "addOrUpdate",
+    //           message: "What would you like to do next?",
+    //           type: "list",
+    //           choices: ["Add Employee", "Update Employee", "Start Again", "Exit"]
+    //         }
+    //       ]).then(({addOrUpdate})=> {
+    //         if(addOrUpdate === "Add Employee") {
+    //             askUserForNewEmployeeInfo();
+    //         }
+  
+    //         else if(addOrUpdate === "Update Employee") {
+    //            updateEmployee();
+    //         }
+  
+    //         else if(addOrUpdate === "Start Again") {
+    //           start();
+    //        }
+    //         else if(addOrUpdate=="Exit"){
+    //           console.log("Thank you, session ended!")
+    //           connection.end();
+    //         }
+    //       })
+    //   })  
+    // }
   
