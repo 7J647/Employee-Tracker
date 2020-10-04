@@ -64,6 +64,10 @@ const connection = mysql.createConnection({
           if(addOrUpdate === "Add Employee") {
               askUserForNewEmployeeInfo();
           }
+
+          else if(addOrUpdate === "Update Employee") {
+             updateEmployee();
+          }
           else if(addOrUpdate=="Exit"){
             console.log("Thank you, session ended!")
             connection.end();
@@ -80,10 +84,15 @@ const connection = mysql.createConnection({
       })
   }
 
-  function updateEmployee(role_id){
-    connection.query("UPDATE employee SET role_id= ? WHERE id= ?")
+  function updateEmployee(){
+    connection.query("SELECT * FROM employee", (err, data) => {
+      if (err) throw err;
+      console.log(data);
+      const arrayOfEmployeeNames = data.map(employee => employee.first_name + " " + employee.last_name);
+      console.log(arrayOfEmployeeNames);
 
-  }
+  })
+}
 
   function askUserForNewEmployeeInfo(){
     inquirer.prompt([
