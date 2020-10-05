@@ -164,37 +164,44 @@ const connection = mysql.createConnection({
     inquirer.prompt([
       {
         name: "employeeID",
-        Message: "What will the I.D. be for this employee?",
+        message: "What will the I.D. be for this employee?",
         type: "input",
-        // validate: function(value) {
-        //   if (name!==true) {
-        //     console.log("Employee must have an ID, please start again");
-        //     askUserForNewEmployeeInfo();
-        //   }
-        // }
+        validate: function(value) {
+          if (value.length <1) {
+            console.log("Employee must have an ID, please start again");
+            // askUserForNewEmployeeInfo();
+            return false;
+          }
+          return true;
+//
+// return value.length > 0;
+
+
+
+        }
       },
 
       {
         name: "employeeFirstName",
-        Message: "What is the employee's first name?",
+        message: "What is the employee's first name?",
         type: "input"
       },
 
       {
         name: "employeeLastName",
-        Message: "What is the employee's last name?",
+        message: "What is the employee's last name?",
         type: "input"
       },
 
       {
         name: "employeeRoleID",
-        Message: "What is the employee's role I.D.?",
+        message: "What is the employee's role I.D.?",
         type: "input"
       },
 
       {
         name: "employeeManagerID",
-        Message: "What is the employee's manager's I.D.?",
+        message: "What is the employee's manager's I.D.?",
         type: "input"
       }
     ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
