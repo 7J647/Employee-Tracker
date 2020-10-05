@@ -179,7 +179,7 @@ const connection = mysql.createConnection({
         }
         else if(userArea === "Departments") {
           listDepartments();
-
+          getDepartments();
         }
       });
     }
@@ -190,35 +190,71 @@ const connection = mysql.createConnection({
         console.table(data);
       })
     }
-  
 
-    // function getEmployees(){
-    //   connection.query("SELECT * FROM employee", (err, data) => {
-    //     if (err) throw err;
-    //       inquirer.prompt([
-    //         {
-    //           name: "addOrUpdate",
-    //           message: "What would you like to do next?",
-    //           type: "list",
-    //           choices: ["Add Employee", "Update Employee", "Start Again", "Exit"]
-    //         }
-    //       ]).then(({addOrUpdate})=> {
-    //         if(addOrUpdate === "Add Employee") {
-    //             askUserForNewEmployeeInfo();
-    //         }
+    function getDepartments(){
+      connection.query("SELECT * FROM employee", (err, data) => {
+        if (err) throw err;
+          inquirer.prompt([
+            {
+              name: "addOrExit",
+              message: "What would you like to do next?",
+              type: "list",
+              choices: ["Add Department", "Start Again", "Exit"]
+            }
+          ]).then(({addOrExit})=> {
+            if(addOrExit === "Add Department") {
+              askForNewDepartmentInfo();
+            }
   
-    //         else if(addOrUpdate === "Update Employee") {
-    //            updateEmployee();
-    //         }
+            else if(addOrUpdate === "Start Again") {
+              start();
+           }
+            else if(addOrUpdate=="Exit"){
+              console.log("Thank you, session ended!")
+              connection.end();
+            }
+          })
+      })  
+    }
+
+    function addDepartment(id, department_name){
+      connection.query("INSERT INTO department SET ? ", 
+      {id: id, department_name: department_name}, 
+        (err, data) => {
+          if (err) throw err;
+      })
+    }
+
+    function askForNewDepartmentInfo(){
+        inquirer.prompt([
+          {
+            name: "departmentID",
+            Message: "What will the I.D. be for this department?",
+            type: "input",
+          },
   
-    //         else if(addOrUpdate === "Start Again") {
-    //           start();
-    //        }
-    //         else if(addOrUpdate=="Exit"){
-    //           console.log("Thank you, session ended!")
-    //           connection.end();
-    //         }
-    //       })
-    //   })  
-    // }
+          {
+            name: "departmentName",
+            Message: "What is the name of this department?",
+            type: "input"
+          },
+      ]).then(({departmentID, departmentName}) => {
+        console.log(departmentID);
+        console.log(departmentName);
+        // addDepartment(departmentID, departmentName);
+        // listDepartments();
+        // getDepartments();
+      })
+    }
+//   ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
+//     // console.log(employeeID);
+//     // console.log(employeeFirstName);
+//     // console.log(employeeLastName);
+//     // console.log(employeeRoleID);
+//     // console.log(employeeManagerID);
+//     addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
+//     listEmployees();
+//     getEmployees();
+//   })
+// }
   
