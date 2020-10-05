@@ -371,7 +371,7 @@ const connection = mysql.createConnection({
         inquirer.prompt([
           {
             name: "roleID",
-            Message: "What will the I.D. be for this role?",
+            message: "What will the I.D. be for this role?",
             type: "input",
             validate: function(value) {
               if (value.length <1) {
@@ -384,7 +384,7 @@ const connection = mysql.createConnection({
   
           {
             name: "roleTitle",
-            Message: "What is the title of this role?",
+            message: "What is the title of this role?",
             type: "input",
             validate: function(value) {
               if (value.length <1) {
@@ -397,7 +397,7 @@ const connection = mysql.createConnection({
 
           {
             name: "roleSalary",
-            Message: "What is the salary for this role?",
+            message: "What is the salary for this role?",
             type: "input",
             validate: function(value) {
               if (value.length <1) {
@@ -410,7 +410,7 @@ const connection = mysql.createConnection({
 
           {
             name: "roleDepartment",
-            Message: "Please enter the Department for this role:",
+            message: "Please enter the Department for this role:",
             type: "input",
             validate: function(value) {
               if (value.length <1) {
@@ -421,11 +421,6 @@ const connection = mysql.createConnection({
             }
           },
       ]).then(({roleID, roleTitle, roleSalary, roleDepartment}) => {
-        console.log(roleID);
-        console.log(roleTitle);
-        console.log(roleSalary);
-        console.log(roleDepartment);
-
         addRole(roleID, roleTitle, roleSalary, roleDepartment);
         listRoles();
         getRoles();
