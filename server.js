@@ -189,7 +189,7 @@ const connection = mysql.createConnection({
         }
         else if(userArea === "Roles") {
           listRoles();
-          // getRoles();
+          getRoles();
         }
       });
     }
@@ -266,31 +266,32 @@ const connection = mysql.createConnection({
       })
     }
 
-    // function getDepartments(){
-    //   connection.query("SELECT * FROM employee", (err, data) => {
-    //     if (err) throw err;
-    //       inquirer.prompt([
-    //         {
-    //           name: "addOrExit",
-    //           message: "What would you like to do next?",
-    //           type: "list",
-    //           choices: ["Add Department", "Start Again", "Exit"]
-    //         }
-    //       ]).then(({addOrExit})=> {
-    //         if(addOrExit === "Add Department") {
-    //           askForNewDepartmentInfo();
-    //         }
+    function getRoles(){
+      connection.query("SELECT * FROM role", (err, data) => {
+        if (err) throw err;
+          inquirer.prompt([
+            {
+              name: "addOrExit",
+              message: "What would you like to do next?",
+              type: "list",
+              choices: ["Add Role", "Start Again", "Exit"]
+            }
+          ]).then(({addOrExit})=> {
+            if(addOrExit === "Add Role") {
+              // askForNewRoleInfo();
+              connection.end();
+            }
   
-    //         else if(addOrExit === "Start Again") {
-    //           start();
-    //        }
-    //         else if(addOrExit=="Exit"){
-    //           console.log("Thank you, session ended!")
-    //           connection.end();
-    //         }
-    //       })
-    //   })  
-    // }
+            else if(addOrExit === "Start Again") {
+              start();
+           }
+            else if(addOrExit=="Exit"){
+              console.log("Thank you, session ended!")
+              connection.end();
+            }
+          })
+      })  
+    }
 
     // function addDepartment(id, department_name){
     //   connection.query("INSERT INTO department SET ? ", 
