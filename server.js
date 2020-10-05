@@ -187,6 +187,10 @@ const connection = mysql.createConnection({
           listDepartments();
           getDepartments();
         }
+        else if(userArea === "Roles") {
+          listRoles();
+          // getRoles();
+        }
       });
     }
   
@@ -252,4 +256,69 @@ const connection = mysql.createConnection({
         getDepartments();
       })
     }
+
+
+
+    function listRoles(){
+      connection.query("SELECT * FROM department", (err, data) => {
+        if (err) throw err;
+        console.table(data);
+      })
+    }
+
+    // function getDepartments(){
+    //   connection.query("SELECT * FROM employee", (err, data) => {
+    //     if (err) throw err;
+    //       inquirer.prompt([
+    //         {
+    //           name: "addOrExit",
+    //           message: "What would you like to do next?",
+    //           type: "list",
+    //           choices: ["Add Department", "Start Again", "Exit"]
+    //         }
+    //       ]).then(({addOrExit})=> {
+    //         if(addOrExit === "Add Department") {
+    //           askForNewDepartmentInfo();
+    //         }
+  
+    //         else if(addOrExit === "Start Again") {
+    //           start();
+    //        }
+    //         else if(addOrExit=="Exit"){
+    //           console.log("Thank you, session ended!")
+    //           connection.end();
+    //         }
+    //       })
+    //   })  
+    // }
+
+    // function addDepartment(id, department_name){
+    //   connection.query("INSERT INTO department SET ? ", 
+    //   {id: id, department_name: department_name}, 
+    //     (err, data) => {
+    //       if (err) throw err;
+    //   })
+    // }
+
+    // function askForNewDepartmentInfo(){
+    //     inquirer.prompt([
+    //       {
+    //         name: "departmentID",
+    //         Message: "What will the I.D. be for this department?",
+    //         type: "input",
+    //       },
+  
+    //       {
+    //         name: "departmentName",
+    //         Message: "What is the name of this department?",
+    //         type: "input"
+    //       },
+    //   ]).then(({departmentID, departmentName}) => {
+    //     // console.log(departmentID);
+    //     // console.log(departmentName);
+    //     addDepartment(departmentID, departmentName);
+    //     listDepartments();
+    //     getDepartments();
+    //   })
+    // }
   
