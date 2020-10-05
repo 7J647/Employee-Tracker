@@ -3,14 +3,8 @@ const inquirer = require("inquirer");
 
 const connection = mysql.createConnection({
     host: "localhost",
-  
-    // Your port; if not 3306
     port: 3306,
-  
-    // Your username
     user: "root",
-  
-    // Your password
     password: "PootyGasser5%",
     database: "tracker"
   });
@@ -66,59 +60,105 @@ const connection = mysql.createConnection({
       })
   }
 
+
   function updateEmployee(){
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
-      // console.log(data);
-      const arrayOfEmployeeNames = data.map((employee) => employee.id);
-      // console.log(arrayOfEmployeeNames);
       inquirer.prompt([
         {
-          name: "employeeToUpdate",
-          message: "Which employee are you updating?",
+          name: "idToUpdate",
+          message: "Which of the following are you updating?",
           type: "list",
-          choices: arrayOfEmployeeNames,
-        },
-        //TODO inquirer.prompt ask the user for the updated id
-
-        {
-          name: "updatedRoleID",
-          message: "Please enter the employee's updated Role ID:",
-          type: "input",
+          choices: ["Role ID","Manager ID"],
         }
-
-
       ])
-      .then(({employeeToUpdate, updatedRoleID}) => {
-        // console.log(employeeToUpdate);
-        // listEmployees();
-        connection.query(
-        "UPDATE employee SET ? WHERE ?",
-
-    //     { id: id, first_name: first_name, last_name: last_name, role_id: role_id, manager_id: manager_id}, 
-    //     (err, data) => {
-    //       if (err) throw err;
-    //     })
-    // }
-
-
-        [
-          {
-            role_id:  updatedRoleID,
-          },
-          {
-            id: employeeToUpdate,
-          },
-        ],
-        (err, data) => {
-          if (err) throw err;
-          listEmployees();
-          console.log("Employee successfully updated, see table below.");
-          getEmployees();
-        })
-      });
+        .then(({idToUpdate})=> {
+            if(idToUpdate === "Role ID") {
+                updateEmployeeRole();
+            }
+            else if(idToUpdate === "Manager ID") {
+                updateEmployeeManager();
+            }
+        });
     });
-  }
+}
+
+    function updateEmployeeRole() {
+      connection.query("SELECT * FROM employee", (err, data) => {
+        if (err) throw err;
+        const arrayOfEmployeeNames = data.map((employee) => employee.id);
+        inquirer.prompt([
+          {
+            name: "employeeToUpdate",
+            message: "Which employee are you updating?",
+            type: "list",
+            choices: arrayOfEmployeeNames,
+          },
+              {
+                name: "updatedRoleID",
+                message: "Please enter the employee's updated Role ID:",
+                type: "input",
+              }
+            ])
+            .then(({employeeToUpdate,updatedRoleID}) => {
+              connection.query(
+              "UPDATE employee SET ? WHERE ?",
+              [
+                {
+                  role_id:  updatedRoleID,
+                },
+                {
+                  id: employeeToUpdate,
+                },
+              ],
+              (err, data) => {
+                if (err) throw err;
+                listEmployees();
+                console.log("Employee successfully updated, see table below.");
+                getEmployees();
+              })
+            });
+        })
+    }
+
+        function updateEmployeeManager() {
+          connection.query("SELECT * FROM employee", (err, data) => {
+            if (err) throw err;
+            const arrayOfEmployeeNames = data.map((employee) => employee.id);
+            inquirer.prompt([
+
+              {
+                name: "employeeToUpdate",
+                message: "Which employee are you updating?",
+                type: "list",
+                choices: arrayOfEmployeeNames,
+              },
+                  {
+                    name: "updatedManagerID",
+                    message: "Please enter the employee's new Manager's ID:",
+                    type: "input",
+                  }
+                ])
+                .then(({employeeToUpdate,updatedManagerID}) => {
+                  connection.query(
+                  "UPDATE employee SET ? WHERE ?",
+                  [
+                    {
+                      manager_id:  updatedManagerID,
+                    },
+                    {
+                      id: employeeToUpdate,
+                    },
+                  ],
+                  (err, data) => {
+                    if (err) throw err;
+                    listEmployees();
+                    console.log("Employee successfully updated, see table below.");
+                    getEmployees();
+                  })
+                });
+              })
+            }
 
   function askUserForNewEmployeeInfo(){
     inquirer.prompt([
@@ -158,11 +198,6 @@ const connection = mysql.createConnection({
         type: "input"
       }
     ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
-      // console.log(employeeID);
-      // console.log(employeeFirstName);
-      // console.log(employeeLastName);
-      // console.log(employeeRoleID);
-      // console.log(employeeManagerID);
       addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
       listEmployees();
       getEmployees();
@@ -178,7 +213,6 @@ const connection = mysql.createConnection({
         choices: ["Employees", "Departments", "Roles"]
       }
       ]).then(({userArea})=> {
-        // console.log(userArea);
         if(userArea === "Employees") {
           listEmployees(); 
           getEmployees();
@@ -249,14 +283,11 @@ const connection = mysql.createConnection({
             type: "input"
           },
       ]).then(({departmentID, departmentName}) => {
-        // console.log(departmentID);
-        // console.log(departmentName);
         addDepartment(departmentID, departmentName);
         listDepartments();
         getDepartments();
       })
     }
-
 
 
     function listRoles(){
