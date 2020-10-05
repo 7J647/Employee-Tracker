@@ -293,13 +293,13 @@ const connection = mysql.createConnection({
       })  
     }
 
-    // function addDepartment(id, department_name){
-    //   connection.query("INSERT INTO department SET ? ", 
-    //   {id: id, department_name: department_name}, 
-    //     (err, data) => {
-    //       if (err) throw err;
-    //   })
-    // }
+    function addRole(id, title, salary, department_id){
+      connection.query("INSERT INTO department SET ? ", 
+      {id: id, title: title, salary: salary, department_id: department_id}, 
+        (err, data) => {
+          if (err) throw err;
+      })
+    }
 
     // function askForNewDepartmentInfo(){
     //     inquirer.prompt([
