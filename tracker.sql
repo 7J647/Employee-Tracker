@@ -25,7 +25,7 @@ id INT NOT NULL,
 first_name VARCHAR(30),
 last_name VARCHAR(30),
 role_id INT NOT NULL,
-manager_id INT,
+manager_id INT NULL,
 PRIMARY KEY (id)
 );
 

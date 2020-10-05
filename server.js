@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "PootyGasser5%",
+    password: "",
     database: "tracker"
   });
 
@@ -168,35 +168,50 @@ const connection = mysql.createConnection({
         type: "input",
         validate: function(value) {
           if (value.length <1) {
-            console.log("Employee must have an ID, please start again");
-            // askUserForNewEmployeeInfo();
+            console.log("Employee must have an ID, please enter one");
             return false;
           }
           return true;
-//
-// return value.length > 0;
-
-
-
         }
       },
 
       {
         name: "employeeFirstName",
         message: "What is the employee's first name?",
-        type: "input"
+        type: "input",
+        validate: function(value) {
+          if (value.length <1) {
+            console.log("Employee must have a first name, please enter one");
+            return false;
+          }
+          return true;
+        }
       },
 
       {
         name: "employeeLastName",
         message: "What is the employee's last name?",
-        type: "input"
+        type: "input",
+        validate: function(value) {
+          if (value.length <1) {
+            console.log("Employee must have a last name, please enter one");
+            return false;
+          }
+          return true;
+        }
       },
 
       {
         name: "employeeRoleID",
         message: "What is the employee's role I.D.?",
-        type: "input"
+        type: "input",
+        validate: function(value) {
+          if (value.length <1) {
+            console.log("Employee must have a role I.D., please enter one");
+            return false;
+          }
+          return true;
+        }
       },
 
       {
@@ -282,12 +297,26 @@ const connection = mysql.createConnection({
             name: "departmentID",
             Message: "What will the I.D. be for this department?",
             type: "input",
+            validate: function(value) {
+              if (value.length <1) {
+                console.log("Department must have an I.D., please enter one");
+                return false;
+              }
+              return true;
+            }
           },
   
           {
             name: "departmentName",
             Message: "What is the name of this department?",
-            type: "input"
+            type: "input",
+            validate: function(value) {
+              if (value.length <1) {
+                console.log("Department must have a name, please enter one");
+                return false;
+              }
+              return true;
+            }
           },
       ]).then(({departmentID, departmentName}) => {
         addDepartment(departmentID, departmentName);
@@ -344,24 +373,52 @@ const connection = mysql.createConnection({
             name: "roleID",
             Message: "What will the I.D. be for this role?",
             type: "input",
+            validate: function(value) {
+              if (value.length <1) {
+                console.log("Role must have an I.D., please enter one");
+                return false;
+              }
+              return true;
+            }
           },
   
           {
             name: "roleTitle",
             Message: "What is the title of this role?",
-            type: "input"
+            type: "input",
+            validate: function(value) {
+              if (value.length <1) {
+                console.log("Role must have a title, please enter one");
+                return false;
+              }
+              return true;
+            }
           },
 
           {
             name: "roleSalary",
             Message: "What is the salary for this role?",
-            type: "input"
+            type: "input",
+            validate: function(value) {
+              if (value.length <1) {
+                console.log("Role must have a salary assigned, please enter one");
+                return false;
+              }
+              return true;
+            }
           },
 
           {
             name: "roleDepartment",
             Message: "Please enter the Department for this role:",
-            type: "input"
+            type: "input",
+            validate: function(value) {
+              if (value.length <1) {
+                console.log("Role must have a department it is assigned to, please enter one");
+                return false;
+              }
+              return true;
+            }
           },
       ]).then(({roleID, roleTitle, roleSalary, roleDepartment}) => {
         console.log(roleID);
