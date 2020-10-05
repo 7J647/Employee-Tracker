@@ -35,4 +35,7 @@ VALUES (101, "Jeff", "Flynn", 1);
 INSERT INTO department (id, department_name)
 VALUES (1, "Shipping"), (2, "Finance");
 
-SELECT * FROM department;
+INSERT INTO role (id, title, salary, department_id)
+VALUES (36, "Manager", 50000, 1);
+
+SELECT * FROM role;
