@@ -260,7 +260,7 @@ const connection = mysql.createConnection({
 
 
     function listRoles(){
-      connection.query("SELECT * FROM department", (err, data) => {
+      connection.query("SELECT * FROM role", (err, data) => {
         if (err) throw err;
         console.table(data);
       })
@@ -278,8 +278,7 @@ const connection = mysql.createConnection({
             }
           ]).then(({addOrExit})=> {
             if(addOrExit === "Add Role") {
-              // askForNewRoleInfo();
-              connection.end();
+              askForNewRoleInfo();
             }
   
             else if(addOrExit === "Start Again") {
@@ -294,32 +293,47 @@ const connection = mysql.createConnection({
     }
 
     function addRole(id, title, salary, department_id){
-      connection.query("INSERT INTO department SET ? ", 
+      connection.query("INSERT INTO role SET ? ", 
       {id: id, title: title, salary: salary, department_id: department_id}, 
         (err, data) => {
           if (err) throw err;
       })
     }
 
-    // function askForNewDepartmentInfo(){
-    //     inquirer.prompt([
-    //       {
-    //         name: "departmentID",
-    //         Message: "What will the I.D. be for this department?",
-    //         type: "input",
-    //       },
+    function askForNewRoleInfo(){
+        inquirer.prompt([
+          {
+            name: "roleID",
+            Message: "What will the I.D. be for this role?",
+            type: "input",
+          },
   
-    //       {
-    //         name: "departmentName",
-    //         Message: "What is the name of this department?",
-    //         type: "input"
-    //       },
-    //   ]).then(({departmentID, departmentName}) => {
-    //     // console.log(departmentID);
-    //     // console.log(departmentName);
-    //     addDepartment(departmentID, departmentName);
-    //     listDepartments();
-    //     getDepartments();
-    //   })
-    // }
+          {
+            name: "roleTitle",
+            Message: "What is the title of this role?",
+            type: "input"
+          },
+
+          {
+            name: "roleSalary",
+            Message: "What is the salary for this role?",
+            type: "input"
+          },
+
+          {
+            name: "roleDepartment",
+            Message: "Please enter the Department for this role:",
+            type: "input"
+          },
+      ]).then(({roleID, roleTitle, roleSalary, roleDepartment}) => {
+        console.log(roleID);
+        console.log(roleTitle);
+        console.log(roleSalary);
+        console.log(roleDepartment);
+
+        addRole(roleID, roleTitle, roleSalary, roleDepartment);
+        listRoles();
+        getRoles();
+      })
+    }
   
