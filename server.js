@@ -126,6 +126,12 @@ const connection = mysql.createConnection({
         name: "employeeID",
         Message: "What will the I.D. be for this employee?",
         type: "input",
+        // validate: function(value) {
+        //   if (name!==true) {
+        //     console.log("Employee must have an ID, please start again");
+        //     askUserForNewEmployeeInfo();
+        //   }
+        // }
       },
 
       {
@@ -206,10 +212,10 @@ const connection = mysql.createConnection({
               askForNewDepartmentInfo();
             }
   
-            else if(addOrUpdate === "Start Again") {
+            else if(addOrExit === "Start Again") {
               start();
            }
-            else if(addOrUpdate=="Exit"){
+            else if(addOrExit=="Exit"){
               console.log("Thank you, session ended!")
               connection.end();
             }
@@ -239,22 +245,11 @@ const connection = mysql.createConnection({
             type: "input"
           },
       ]).then(({departmentID, departmentName}) => {
-        console.log(departmentID);
-        console.log(departmentName);
-        // addDepartment(departmentID, departmentName);
-        // listDepartments();
-        // getDepartments();
+        // console.log(departmentID);
+        // console.log(departmentName);
+        addDepartment(departmentID, departmentName);
+        listDepartments();
+        getDepartments();
       })
     }
-//   ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
-//     // console.log(employeeID);
-//     // console.log(employeeFirstName);
-//     // console.log(employeeLastName);
-//     // console.log(employeeRoleID);
-//     // console.log(employeeManagerID);
-//     addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
-//     listEmployees();
-//     getEmployees();
-//   })
-// }
   
