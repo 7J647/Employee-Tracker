@@ -328,7 +328,7 @@ function deleteEmployee(){
         name: "userArea",
         message: "Which database table would you like to view?",
         type: "list",
-        choices: ["Employees", "Departments", "Roles"]
+        choices: ["Employees", "Departments", "Roles",]
       }
       ]).then(({userArea})=> {
         if(userArea === "Employees") {
@@ -361,7 +361,7 @@ function deleteEmployee(){
               name: "addOrExit",
               message: "What would you like to do next?",
               type: "list",
-              choices: ["Add Department", "Delete Department", "Start Again", "Exit"]
+              choices: ["Add Department", "Delete Department", "View Department Salaries", "Start Again", "Exit"]
             }
           ]).then(({addOrExit})=> {
             if(addOrExit === "Add Department") {
@@ -370,6 +370,10 @@ function deleteEmployee(){
 
             else if(addOrExit === "Delete Department") {
               deleteDepartment();
+            }
+
+            else if(addOrExit === "View Department Salaries") {
+              departmentSalaries();
             }
   
             else if(addOrExit === "Start Again") {
@@ -388,6 +392,18 @@ function deleteEmployee(){
       {id: id, department_name: department_name}, 
         (err, data) => {
           if (err) throw err;
+      })
+    }
+
+    function departmentSalaries(){
+      connection.query(`SELECT department_id, salary
+      FROM role
+      LEFT JOIN employee
+      on role.id = employee.role_id;`,  
+        (err, data) => {
+          if (err) throw err;
+          console.table(data);
+          start();
       })
     }
 
