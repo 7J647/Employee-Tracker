@@ -366,7 +366,7 @@ const connection = mysql.createConnection({
     function deleteDepartment(){
       connection.query("SELECT * FROM department", (err, data) => {
         if (err) throw err;
-        const arrayOfDepartmentNames = data.map((department) => department.id);
+        const arrayOfDepartmentNames = data.map((department) => department.department_name);
         inquirer.prompt([
           {
             name: "departmentToDelete",
@@ -380,7 +380,7 @@ const connection = mysql.createConnection({
           "DELETE FROM department WHERE ?",
           [
             {
-              id: departmentToDelete,
+              department_name: departmentToDelete,
             },
           ],
           (err, data) => {
