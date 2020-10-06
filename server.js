@@ -309,8 +309,8 @@ function deleteEmployee(){
       ],
       (err, data) => {
         if (err) throw err;
-        listEmployees();
         console.log("Employee successfully deleted, see table below.");
+        listEmployees();
         getEmployees();
       })
     });
