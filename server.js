@@ -328,7 +328,7 @@ function deleteEmployee(){
         name: "userArea",
         message: "Which database table would you like to view?",
         type: "list",
-        choices: ["Employees", "Departments", "Roles",]
+        choices: ["Employees", "Departments", "Roles", "Exit"]
       }
       ]).then(({userArea})=> {
         if(userArea === "Employees") {
@@ -342,6 +342,9 @@ function deleteEmployee(){
         else if(userArea === "Roles") {
           listRoles();
           getRoles();
+        }
+        else if(userArea === "Exit") {
+          connection.end();
         }
       });
     }
