@@ -30,7 +30,7 @@ const connection = mysql.createConnection({
             name: "addOrUpdate",
             message: "What would you like to do next?",
             type: "list",
-            choices: ["Add Employee", "Update Employee", "Start Again", "Exit"]
+            choices: ["Add Employee", "Update Employee", "Delete Employee", "Start Again", "Exit"]
           }
         ]).then(({addOrUpdate})=> {
           if(addOrUpdate === "Add Employee") {
@@ -40,6 +40,10 @@ const connection = mysql.createConnection({
           else if(addOrUpdate === "Update Employee") {
              updateEmployee();
           }
+
+          else if(addOrUpdate === "Delete Employee") {
+            deleteEmployee();
+         }
 
           else if(addOrUpdate === "Start Again") {
             start();
@@ -225,6 +229,36 @@ const connection = mysql.createConnection({
       getEmployees();
     })
   }
+
+  function deleteEmployee(){
+    connection.query("SELECT * FROM employee", (err, data) => {
+      if (err) throw err;
+      const arrayOfEmployeeNames = data.map((employee) => employee.id);
+      inquirer.prompt([
+        {
+          name: "employeeToDelete",
+          message: "Which employee are you deleting?",
+          type: "list",
+          choices: arrayOfEmployeeNames,
+        }
+      ])
+      .then(({employeeToDelete}) => {
+        connection.query(
+        "DELETE FROM employee WHERE ?",
+        [
+          {
+            id: employeeToDelete,
+          },
+        ],
+        (err, data) => {
+          if (err) throw err;
+          listEmployees();
+          console.log("Employee successfully deleted, see table below.");
+          getEmployees();
+        })
+      });
+  })
+}
 
   function start() {
     inquirer.prompt([
