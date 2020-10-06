@@ -5,7 +5,7 @@ const connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "",
+    password: "PootyGasser5%",
     database: "tracker"
   });
 
@@ -395,7 +395,7 @@ function deleteEmployee(){
         inquirer.prompt([
           {
             name: "departmentID",
-            Message: "What will the I.D. be for this department?",
+            message: "What will the I.D. be for this department?",
             type: "input",
             validate: function(value) {
               if (value.length <1) {
@@ -408,7 +408,7 @@ function deleteEmployee(){
   
           {
             name: "departmentName",
-            Message: "What is the name of this department?",
+            message: "What is the name of this department?",
             type: "input",
             validate: function(value) {
               if (value.length <1) {
