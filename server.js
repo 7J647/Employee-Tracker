@@ -151,11 +151,12 @@ const connection = mysql.createConnection({
                   }
                 ])
                 .then(({employeeToUpdate,updatedManagerID}) => {
+                  const newManagerID = updatedManagerID ? updatedManagerID : null;
                   connection.query(
                   "UPDATE employee SET ? WHERE ?",
                   [
                     {
-                      manager_id:  updatedManagerID,
+                      manager_id:  newManagerID,
                     },
                     {
                       id: employeeToUpdate,
@@ -231,7 +232,9 @@ const connection = mysql.createConnection({
         type: "input"
       }
     ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
-      addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
+      const managerID = employeeManagerID ? employeeManagerID : null;
+      console.log(managerID);
+      addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, managerID);
       console.log("Employee successfully added, see table below.");
       listEmployees();
       getEmployees();
