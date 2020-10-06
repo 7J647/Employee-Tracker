@@ -299,11 +299,15 @@ const connection = mysql.createConnection({
               name: "addOrExit",
               message: "What would you like to do next?",
               type: "list",
-              choices: ["Add Department", "Start Again", "Exit"]
+              choices: ["Add Department", "Delete Department", "Start Again", "Exit"]
             }
           ]).then(({addOrExit})=> {
             if(addOrExit === "Add Department") {
               askForNewDepartmentInfo();
+            }
+
+            else if(addOrExit === "Delete Department") {
+              deleteDepartment();
             }
   
             else if(addOrExit === "Start Again") {
@@ -358,6 +362,36 @@ const connection = mysql.createConnection({
         getDepartments();
       })
     }
+
+    function deleteDepartment(){
+      connection.query("SELECT * FROM department", (err, data) => {
+        if (err) throw err;
+        const arrayOfDepartmentNames = data.map((department) => department.id);
+        inquirer.prompt([
+          {
+            name: "departmentToDelete",
+            message: "Which department are you deleting?",
+            type: "list",
+            choices: arrayOfDepartmentNames,
+          }
+        ])
+        .then(({departmentToDelete}) => {
+          connection.query(
+          "DELETE FROM department WHERE ?",
+          [
+            {
+              id: departmentToDelete,
+            },
+          ],
+          (err, data) => {
+            if (err) throw err;
+            listDepartments();
+            console.log("Department successfully deleted, see table below.");
+            getDepartments();
+          })
+        });
+    })
+  }
 
 
     function listRoles(){
