@@ -238,35 +238,86 @@ const connection = mysql.createConnection({
     })
   }
 
-  function deleteEmployee(){
-    connection.query("SELECT * FROM employee", (err, data) => {
-      if (err) throw err;
-      const arrayOfEmployeeNames = data.map((employee) => employee.id);
-      inquirer.prompt([
-        {
-          name: "employeeToDelete",
-          message: "Which employee are you deleting?",
-          type: "list",
-          choices: arrayOfEmployeeNames,
+//   function deleteEmployee(){
+//     connection.query("SELECT * FROM employee", (err, data) => {
+//       if (err) throw err;
+//       const arrayOfEmployeeNames = data.map((employee) => employee.id);
+//       inquirer.prompt([
+//         {
+//           name: "employeeToDelete",
+//           message: "Which employee are you deleting?",
+//           type: "list",
+//           choices: arrayOfEmployeeNames,
+//         }
+//       ])
+//       .then(({employeeToDelete}) => {
+//         connection.query(
+//         "DELETE FROM employee WHERE ?",
+//         [
+//           {
+//             id: employeeToDelete,
+//           },
+//         ],
+//         (err, data) => {
+//           if (err) throw err;
+//           console.log("Employee successfully deleted, see table below.");
+//           listEmployees();
+//           getEmployees();
+//         })
+//       });
+//   })
+// }
+
+
+function deleteEmployee(){
+    inquirer.prompt([
+      {
+        name: "firstNameToDelete",
+        message: "What is the first name of the employee are you deleting?",
+        type: "input",
+        validate: function(value) {
+          if (value.length <1) {
+            console.log("No entry provided, please enter the employee's first name to proceed.");
+            return false;
+          }
+          return true;
         }
-      ])
-      .then(({employeeToDelete}) => {
-        connection.query(
-        "DELETE FROM employee WHERE ?",
-        [
-          {
-            id: employeeToDelete,
-          },
-        ],
-        (err, data) => {
-          if (err) throw err;
-          console.log("Employee successfully deleted, see table below.");
-          listEmployees();
-          getEmployees();
-        })
-      });
-  })
+      },
+      {
+        name: "lastNameToDelete",
+        message: "What is the last name of the employee are you deleting?",
+        type: "input",
+        validate: function(value) {
+          if (value.length <1) {
+            console.log("No entry provided, please enter the employee's last name to proceed.");
+            return false;
+          }
+          return true;
+        }
+      },
+    ])
+    .then(({firstNameToDelete, lastNameToDelete}) => {
+      connection.query(
+      "DELETE FROM employee WHERE ? AND ?",
+      [
+        {
+          first_name: firstNameToDelete, 
+        },
+        {
+          last_name: lastNameToDelete,
+        }
+      ],
+      (err, data) => {
+        if (err) throw err;
+        listEmployees();
+        console.log("Employee successfully deleted, see table below.");
+        getEmployees();
+      })
+    });
+
 }
+
+
 
   function start() {
     inquirer.prompt([
