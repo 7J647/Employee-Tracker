@@ -409,16 +409,21 @@ const connection = mysql.createConnection({
               name: "addOrExit",
               message: "What would you like to do next?",
               type: "list",
-              choices: ["Add Role", "Start Again", "Exit"]
+              choices: ["Add Role", "Delete Role", "Start Again", "Exit"]
             }
           ]).then(({addOrExit})=> {
             if(addOrExit === "Add Role") {
               askForNewRoleInfo();
             }
+
+            else if(addOrExit === "Delete Role") {
+              deleteRole();
+            }
   
             else if(addOrExit === "Start Again") {
               start();
-           }
+            }
+
             else if(addOrExit=="Exit"){
               console.log("Thank you, session ended!")
               connection.end();
@@ -494,4 +499,34 @@ const connection = mysql.createConnection({
         getRoles();
       })
     }
+
+    function deleteRole(){
+      connection.query("SELECT * FROM role", (err, data) => {
+        if (err) throw err;
+        const arrayOfRoleTitles = data.map((role) => role.title);
+        inquirer.prompt([
+          {
+            name: "roleToDelete",
+            message: "Which role are you deleting?",
+            type: "list",
+            choices: arrayOfRoleTitles,
+          }
+        ])
+        .then(({roleToDelete}) => {
+          connection.query(
+          "DELETE FROM role WHERE ?",
+          [
+            {
+              title: roleToDelete,
+            },
+          ],
+          (err, data) => {
+            if (err) throw err;
+            console.log("Department successfully deleted, see table below.");
+            listRoles();
+            getRoles();
+          })
+        });
+    })
+  }
   
