@@ -102,6 +102,13 @@ const connection = mysql.createConnection({
                 name: "updatedRoleID",
                 message: "Please enter the employee's updated Role ID:",
                 type: "input",
+                validate: function(value) {
+                  if (value.length <1) {
+                    console.log("Employee must have an updated Role ID, please enter one");
+                    return false;
+                  }
+                  return true;
+                }
               }
             ])
             .then(({employeeToUpdate,updatedRoleID}) => {
@@ -117,8 +124,8 @@ const connection = mysql.createConnection({
               ],
               (err, data) => {
                 if (err) throw err;
+                console.log("Employee role successfully updated, see table below.");
                 listEmployees();
-                console.log("Employee successfully updated, see table below.");
                 getEmployees();
               })
             });
@@ -156,8 +163,8 @@ const connection = mysql.createConnection({
                   ],
                   (err, data) => {
                     if (err) throw err;
+                    console.log("Employee Manager ID successfully updated, see table below.");
                     listEmployees();
-                    console.log("Employee successfully updated, see table below.");
                     getEmployees();
                   })
                 });
@@ -225,6 +232,7 @@ const connection = mysql.createConnection({
       }
     ]).then(({employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID}) => {
       addEmployee(employeeID, employeeFirstName, employeeLastName, employeeRoleID, employeeManagerID);
+      console.log("Employee successfully added, see table below.");
       listEmployees();
       getEmployees();
     })
@@ -252,8 +260,8 @@ const connection = mysql.createConnection({
         ],
         (err, data) => {
           if (err) throw err;
-          listEmployees();
           console.log("Employee successfully deleted, see table below.");
+          listEmployees();
           getEmployees();
         })
       });
@@ -358,6 +366,7 @@ const connection = mysql.createConnection({
           },
       ]).then(({departmentID, departmentName}) => {
         addDepartment(departmentID, departmentName);
+        console.log("Department successfully added, see table below.");
         listDepartments();
         getDepartments();
       })
@@ -385,8 +394,8 @@ const connection = mysql.createConnection({
           ],
           (err, data) => {
             if (err) throw err;
-            listDepartments();
             console.log("Department successfully deleted, see table below.");
+            listDepartments();
             getDepartments();
           })
         });
