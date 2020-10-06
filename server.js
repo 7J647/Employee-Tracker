@@ -15,7 +15,36 @@ const connection = mysql.createConnection({
     start();
   })
 
-  function listEmployees(){
+///START
+function start() {
+  inquirer.prompt([
+    {
+      name: "userArea",
+      message: "Which database table would you like to view?",
+      type: "list",
+      choices: ["Employees", "Departments", "Roles", "Exit"]
+    }
+    ]).then(({userArea})=> {
+      if(userArea === "Employees") {
+        listEmployees(); 
+        getEmployees();
+      }
+      else if(userArea === "Departments") {
+        listDepartments();
+        getDepartments();
+      }
+      else if(userArea === "Roles") {
+        listRoles();
+        getRoles();
+      }
+      else if(userArea === "Exit") {
+        connection.end();
+      }
+    });
+  }
+
+//EMPLOYEE FUNCTIONS
+function listEmployees(){
     connection.query("SELECT * FROM employee", (err, data) => {
       if (err) throw err;
       console.table(data);
@@ -63,7 +92,6 @@ const connection = mysql.createConnection({
         if (err) throw err;
       })
   }
-
 
   function updateEmployee(){
     connection.query("SELECT * FROM employee", (err, data) => {
@@ -241,37 +269,6 @@ const connection = mysql.createConnection({
     })
   }
 
-//   function deleteEmployee(){
-//     connection.query("SELECT * FROM employee", (err, data) => {
-//       if (err) throw err;
-//       const arrayOfEmployeeNames = data.map((employee) => employee.id);
-//       inquirer.prompt([
-//         {
-//           name: "employeeToDelete",
-//           message: "Which employee are you deleting?",
-//           type: "list",
-//           choices: arrayOfEmployeeNames,
-//         }
-//       ])
-//       .then(({employeeToDelete}) => {
-//         connection.query(
-//         "DELETE FROM employee WHERE ?",
-//         [
-//           {
-//             id: employeeToDelete,
-//           },
-//         ],
-//         (err, data) => {
-//           if (err) throw err;
-//           console.log("Employee successfully deleted, see table below.");
-//           listEmployees();
-//           getEmployees();
-//         })
-//       });
-//   })
-// }
-
-
 function deleteEmployee(){
     inquirer.prompt([
       {
@@ -320,35 +317,7 @@ function deleteEmployee(){
 
 }
 
-
-
-  function start() {
-    inquirer.prompt([
-      {
-        name: "userArea",
-        message: "Which database table would you like to view?",
-        type: "list",
-        choices: ["Employees", "Departments", "Roles", "Exit"]
-      }
-      ]).then(({userArea})=> {
-        if(userArea === "Employees") {
-          listEmployees(); 
-          getEmployees();
-        }
-        else if(userArea === "Departments") {
-          listDepartments();
-          getDepartments();
-        }
-        else if(userArea === "Roles") {
-          listRoles();
-          getRoles();
-        }
-        else if(userArea === "Exit") {
-          connection.end();
-        }
-      });
-    }
-  
+//DEPARTMENT FUNCTIONS
     function listDepartments(){
       connection.query("SELECT * FROM department", (err, data) => {
         if (err) throw err;
@@ -475,7 +444,7 @@ function deleteEmployee(){
     })
   }
 
-
+//ROLE FUNCTIONS
     function listRoles(){
       connection.query("SELECT * FROM role", (err, data) => {
         if (err) throw err;

@@ -30,12 +30,9 @@ PRIMARY KEY (id)
 );
 
 INSERT INTO employee (id, first_name, last_name, role_id)
-VALUES (101, "Jeff", "Flynn", 1);
+VALUES (1, "Jeff", "Flynn", 1);
 
-INSERT INTO department (id, department_name)
-VALUES (1, "Shipping"), (2, "Finance");
-
-INSERT INTO role (id, title, salary, department_id)
-VALUES (1, "Manager", 50000, 1);
-
-SELECT * FROM role;
+SELECT department_id, salary
+FROM role
+LEFT JOIN employee
+on role.id = employee.role_id;
